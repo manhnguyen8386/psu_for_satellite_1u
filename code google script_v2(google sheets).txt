@@ -1,0 +1,26 @@
+function doGet(e) {  
+  return ContentService.createTextOutput("GET method not supported");  
+}  
+
+function doPost(e) {  
+  // Lấy các tham số từ yêu cầu    
+  var currentTime = new Date();
+  var voltage = e.parameter.voltage; 
+  var current = e.parameter.current;  
+  var power = e.parameter.power;  
+
+  // Kiểm tra nếu các tham số không được xác định  
+  if (voltage === undefined || current === undefined || power === undefined) {  
+    return ContentService.createTextOutput("Some parameters are missing");  
+  }  
+
+  // Ghi dữ liệu vào Google Sheets  
+  var sheetId = "1YG4L5tlzG747HzGJSVhoMCLszNtQzo-VteChLHiKcbg"; // Thay YOUR_SHEET_ID bằng ID của Google Sheets  
+  var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();  
+  
+  // Thêm dữ liệu vào một hàng mới  
+  sheet.appendRow([currentTime, voltage, current, power]); // Thay đổi theo định dạng bạn muốn  
+
+  // Trả lại phản hồi  
+  return ContentService.createTextOutput("Data received successfully");  
+}
